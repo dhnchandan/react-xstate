@@ -1,13 +1,22 @@
 import {createBrowserInspector} from "@statelyai/inspect";
 import {useMachine} from "@xstate/react";
 import {feedbackMachine} from "../machines/feedbackMachine.ts";
+import {useEffect} from "react";
 
 const {inspect} = createBrowserInspector({
     autoStart: false,
 })
 
 function Feedback() {
-    const [state, send] = useMachine(feedbackMachine, {inspect})
+    const [state, send, feedbackRef] = useMachine(feedbackMachine, {inspect})
+
+    useEffect(() => {
+        const subscribe = feedbackRef.subscribe(snapshot => {
+            console.log(snapshot)
+        })
+
+        return subscribe.unsubscribe
+    }, [feedbackRef])
 
     if (state.matches('closed')) {
         return (<div>
