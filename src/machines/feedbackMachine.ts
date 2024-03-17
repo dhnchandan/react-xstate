@@ -18,7 +18,7 @@ export const feedbackMachine = setup({
         feedbackValid: ({context}) => context.feedback.length > 0,
     },
 }).createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QDMyQEYEMDGBrAxNgDYD2sYA2gAwC6ioADmQJYAuzJAdvSAB6IAWAEwAaEAE9EARgDsMgHQA2ZYoEyAHIoCsAThlUhQgL5GxqDDlzyGAJxIBbBq3zmIWPPKgkSEanSQgTLBsHNwB-AhaVOryWgI6UQDMBlKJyupikgjJUvLqhjpUVAKJcaXKJmZobpbWdo7Oru5WWL60PEEhXDwRUTFxCVTJQqnpmYgjOvJSVIoyuoUy2okalSBNtcgkNvYu1c3yAK4MEJislO0Bnezd4YhzWtNaM+ppiVJaWokZEojquYkClJhIoirIhDI1hsPFsdvhmn4OiwbmFQL18rEZEI9DIpOlEvFxgg8VNscI4kt1FjsVD9pttrtYId0PY2IirsjQj0-p95PMioCdGkqHIdESpP95AI8aoNNo9AZjKZ1nSPMQyJB8DY4KxMDZWOzGJzbmiJoohEopFIdP85AItIZNOK5EoVGpNLp9IYTMrOD44DxobgkcEUdyEABaRREqO0iweWwOJwhrqoviIFYCeQiobJXQCdT21TOhT5f7AoQCKg6aVDOM1GEMlNhu4IfSPXHVrE5z5fcWSrQaK3CKs1maJesHVgAC0wnFw8A5oa5rZej2SMne2g+ami-Zi+UUaQE9viiT0WkntXV5AgzZXpuJJWmgPU1YJb6oskSJbyQjfOiqEBOiyOoPpGEAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QDMyQEYEMDGBrAxNgDYD2sYA2gAwC6ioADmQJYAuzJAdvSAB6IAWAEwAaEAE9EARgDsADgB0AgJyq5QuQDYZQgQFYqegL5GxqDDlwKGAJxIBbBq3zmIWPAqgkSEanSQgTLBsHNwB-Ah6ApoKAMxCQspSyjIpcsmiEoixVEIKmnqaQlGxUpqaWnICJmZobpbWdo7Oru5WWL60PEEhXDwRUTHxicmp8hlikgi6Ugrq6VKxynqx2gKxxqYgrQ3IJDb2LnVtCgCuDBCYrJRdAT3sfeGIMlKzxfLxhUJUmlRyk4h0nEEsoqC8BNEhGUpDVtsddvtDm0-N0WA8wqAIr89HFohshBsBFI9MpNACEFJogo9Do5MpdD9lOlYjJYTsPHsDvhYKd0PY2Ci7mjQv1AUk5oUZEsDOt0jJyVIgUTysJ5jIZCpWVt2VZiGRIPgbHBWJgbKxBYxhY9MdkqFQ4nIosS9MVKno9Ar1flyppVRp1ZstpwfHAeDrUcF0aKEABaMlZWOaNnwjy2BxOCO9DF8QSvObrGQGJkEoSaZSemRzDRSKiqlYpTa1CwcxGZqNPBAa2ZymRUMrFASFqQKoE09K1jT1wvJ5tWVgAC0wnFw8CFkZFHdeUKUlLtv0SyghmSmisU6k0LJSPydhhn9Q8evIEDbG5tFKJSnKi3m62J8ZPURKASzoJMI2jqCYJhAA */
     id: 'feedback',
     context: {
         feedback: '',
@@ -39,6 +39,9 @@ export const feedbackMachine = setup({
                     }),
                 },
                 'back': {
+                    actions: assign({
+                        feedback: '',
+                    }),
                     target: 'prompt',
                 },
                 submit: {
@@ -49,8 +52,13 @@ export const feedbackMachine = setup({
         },
         thanks: {},
         closed: {
+            entry: assign({
+                feedback: '',
+            }),
             on: {
-                restart: 'prompt',
+                restart: {
+                    target: 'prompt',
+                },
             },
         },
     },
